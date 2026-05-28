@@ -9,6 +9,7 @@
 
 void key_callback();
 std::string ReadShaderToString(const std::string filename);
+std::vector<std::vector<float>> ReadFuncVal();
 int winW = 800;
 int winH = 800;
 
@@ -167,8 +168,8 @@ struct Engine
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(shader_program);
 		// START lag former
-		verts.clear();
-		commands.clear();
+		//verts.clear();
+		//commands.clear();
 		int offset = 0;
 
 
@@ -254,13 +255,31 @@ void DrawCircle(
 	}
 }
 
+void ReadFuncVal(std::vector<float>& verts)
+{
+	std::string X;
+	std::string Y;
+
+	std::getline(std::cin,X);
+	std::getline(std::cin,Y);
+
+	int Xlen = X.length();
+	X = X.substr(1,Xlen-2);
+	Y = Y.substr(1,Xlen-2);
+
+	for (int i = 0; i<Xlen-2; i++)
+	{
+		AddVec3(verts,X[i],Y[i]);
+	}
+	
+}
 
 int main()
 {
-	float movespeed = 0.02;
+	ReadFuncVal(engine.verts);
 	double prevsec=0.0;
 	double countdown = 1;
-	int canChange = 1;
+
 	while(!glfwWindowShouldClose(engine.window))
 	{
 
@@ -278,7 +297,7 @@ int main()
 		}
 		// START drawing
 		engine.run(engine.shader_program, engine.vao);
-		
+			
 		// SLUTT drawing
 
 		glfwSwapBuffers(engine.window);

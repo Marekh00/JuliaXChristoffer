@@ -9,6 +9,7 @@
 
 void key_callback();
 std::string ReadShaderToString(const std::string filename);
+
 int winW = 800;
 int winH = 800;
 

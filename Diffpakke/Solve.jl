@@ -19,3 +19,9 @@ function solve(prob::ODEProblem, method; h)
 
     return ODESolution(t, u)
 end
+
+function PrintSolve(prob::ODEProblem, method; h)
+    sol = solve(prob, method; h)
+    println(sol.t)
+    println(sol.u)
+end

@@ -267,6 +267,8 @@ void ReadFuncVal(std::vector<float>& verts)
 	X = X.substr(1,Xlen-2);
 	Y = Y.substr(1,Xlen-2);
 
+	std::cout << X << std::endl;
+
 	for (int i = 0; i<Xlen-2; i++)
 	{
 		AddVec3(verts,X[i],Y[i]);

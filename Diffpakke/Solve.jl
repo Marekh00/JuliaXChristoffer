@@ -21,7 +21,13 @@ function solve(prob::ODEProblem, method; h)
 end
 
 function PrintSolve(prob::ODEProblem, method; h)
+    VectorString = String[]
     sol = solve(prob, method; h)
-    println(sol.t)
-    println(sol.u)
+    StringT = string(sol.t)
+    StringU = string(sol.u)
+    
+    push!(VectorString, StringT)
+    push!(VectorString, StringU)
+
+    return VectorString
 end

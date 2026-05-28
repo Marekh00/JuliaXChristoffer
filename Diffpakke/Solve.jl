@@ -16,13 +16,14 @@ function solve(prob::ODEProblem, method; h)
         t[n+1] = t[n] + h
         u[n+1] = step(method, u[n], t[n], f, h)
     end
-
     return ODESolution(t, u)
 end
+
 
 function PrintSolve(prob::ODEProblem, method; h)
     VectorString = String[]
     sol = solve(prob, method; h)
+
     StringT = string(sol.t)
     StringU = string(sol.u)
     
@@ -31,3 +32,4 @@ function PrintSolve(prob::ODEProblem, method; h)
 
     return VectorString
 end
+

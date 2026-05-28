@@ -7,10 +7,6 @@
 #include <functional>
 #include <cmath>
 
-void key_callback();
-std::string ReadShaderToString(const std::string filename);
-int winW = 800;
-int winH = 800;
 
 struct DrawCommand
 {
@@ -18,6 +14,13 @@ struct DrawCommand
 	int size;
 	int offset;
 };
+
+void key_callback();
+std::string ReadShaderToString(const std::string filename);
+void ReadFuncVal(std::vector<float>& verts, std::vector<DrawCommand>& commands, int& offset);
+int winW = 800;
+int winH = 800;
+
 
 struct Vec2
 {
@@ -70,6 +73,7 @@ struct Engine
 	GLFWwindow* window;
 	int WIDTH 	= winW;
 	int HEIGHT 	= winH;
+	int offset;
 
 	// START definisjon av viktige variabler
 	std::vector<DrawCommand> commands;
@@ -167,23 +171,23 @@ struct Engine
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(shader_program);
 		// START lag former
-		verts.clear();
-		commands.clear();
-		int offset = 0;
+		//verts.clear();
+		//commands.clear();
+		offset = 0;
 
 
 
 		// HER lag commands
 
 
-
-		glNamedBufferSubData(
+		/*		glNamedBufferSubData(
 			vbo,
 			0,
 			verts.size()*sizeof(float),
 			verts.data()		
 		);
 		
+*/
 
 		glBindVertexArray(vao);
 
@@ -254,13 +258,39 @@ void DrawCircle(
 	}
 }
 
+void ReadFuncVal(std::vector<float>& verts, std::vector<DrawCommand>& commands, int& offset)
+{
+	std::string X;
+	std::string Y;
+
+	std::getline(std::cin,X);
+	std::getline(std::cin,Y);
+
+	int Xlen = X.length();
+	X = X.substr(1,Xlen-2);
+	Y = Y.substr(1,Xlen-2);
+	Xlen = X.length();
+	
+	std::cout << X << std::endl;
+
+	commands.push_back({GL_LINE_STRIP,10, 0});
+	offset += 10;
+
+
+	for (int i = 0; i<10; i++)
+	{
+		AddVec3(verts,i/5-1,i/5-1);
+	}
+
+	
+}
 
 int main()
 {
-	float movespeed = 0.02;
+	ReadFuncVal(engine.verts, engine.commands,engine.offset);
 	double prevsec=0.0;
 	double countdown = 1;
-	int canChange = 1;
+
 	while(!glfwWindowShouldClose(engine.window))
 	{
 
@@ -278,7 +308,7 @@ int main()
 		}
 		// START drawing
 		engine.run(engine.shader_program, engine.vao);
-		
+			
 		// SLUTT drawing
 
 		glfwSwapBuffers(engine.window);

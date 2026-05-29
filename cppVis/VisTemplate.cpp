@@ -7,7 +7,6 @@
 #include <functional>
 #include <cmath>
 
-
 struct DrawCommand
 {
 	GLenum mode;
@@ -101,7 +100,9 @@ struct Engine
 		
 		window = glfwCreateWindow(WIDTH,HEIGHT,"Simulation",NULL,NULL);
 		
-		if (!window)
+verts.clear();
+		commands.clear();
+		int offset = 0;		if (!window)
 		{
 			fprintf(stderr, "ERROR: could not open window with GLFW3.\n");
 			exit(EXIT_FAILURE);
